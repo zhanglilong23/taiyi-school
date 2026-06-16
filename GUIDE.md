@@ -5,13 +5,13 @@
 ## 目录结构
 
 ```
-docs/taiyi-school/
+.taiyi/
 │
 ├── requirements/              需求层（★ 进 git，天枢产出）
 │   └── REQ-{NNN}-{slug}.md    需求真言（独立于 Epic）
 │
 ├── _workspace/                工作层（★ .gitignore，分支本地）
-│   ├── status.md              当前态（含 current_requirement/epic/task）
+│   ├── status.md              当前态（含 current_requirement/epic/task + current_star_status + block_reason）
 │   ├── queue.md               当前执行队列
 │   └── interventions.md       当前发现的契约外问题
 │

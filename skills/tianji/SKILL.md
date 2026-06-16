@@ -16,7 +16,7 @@ license: MIT
 
 ### 输入来源
 
-设计包（读 `docs/taiyi-school/epics/{epic}/design.md`，天璇产出）
+设计包（读 `.taiyi/epics/{epic}/design.md`，天璇产出）
 
 ### 输入自审（前置条件检查）
 
@@ -26,14 +26,17 @@ license: MIT
 
 | 检查项 | 通过标准 | 不通过怎么办 |
 |--------|---------|-------------|
-| 设计包存在 | 文件路径有效 | 报告"找不到设计包，请先找天璇设计" |
-| 有架构设计 | 含模块划分+接口定义+约束清单 | 报告"设计包缺架构，请天璇补全" |
-| 约束可机检 | 接口/不变量有具体定义（非模糊描述）| 报告"约束不可机检，请天璇具体化" |
-| 有验收草案 | 每个功能有"完成定义"雏形 | 报告"缺验收草案，请天璇补" |
+| 设计包存在 | 文件路径有效 | R1 拒绝：路由回溯天璇（设计）|
+| 有架构设计 | 含模块划分+接口定义+约束清单 | R1 拒绝：路由回溯天璇（补架构）|
+| 约束可机检 | 接口/不变量有具体定义（非模糊描述）| R1 拒绝：路由回溯天璇（具体化）|
+| 有验收草案 | 每个功能有"完成定义"雏形 | R1 拒绝：路由回溯天璇（补验收）|
+
+> **R2 错误@使用**：若请求是"设计问题"（归天璇）或"编码"（归天权/开阳）→ R2 拒绝，建议正确星（查本星"九星邻接表"）。
+> 拒绝时执行三步动作（说清 R1/R2 + 更 status.md current_star_status=REJECTED + 给路由建议，详见 CONTEXT.md 公共基线·拒绝机制）。
 
 ## 输出
 
-任务契约（每个任务一份，落 `docs/taiyi-school/epics/{epic}/tasks/TASK-{NNN}.md`，**产出前用 Read 读 `references/contract-template.md` 按其结构填**）
+任务契约（每个任务一份，落 `.taiyi/epics/{epic}/tasks/TASK-{NNN}.md`，**产出前用 Read 读 `references/contract-template.md` 按其结构填**）
 
 ## 两层结构
 
@@ -181,8 +184,8 @@ Task 依赖只在 Epic 内表达。若发现 Task 依赖其他 Epic 的 Task →
 
 1. 每个任务产出一份契约（**先 Read `references/contract-template.md` 按其结构填**，落 `epics/{epic}/tasks/TASK-{NNN}.md`）
 2. 更新 `epics/{epic}/epic.md` 文档清单 + Task 列表（每个 Task 一行：ID/描述/状态=ready）
-3. 写入 `docs/taiyi-school/_workspace/queue.md`（就绪 Task 加 Ready 区）
-4. 更新 `docs/taiyi-school/_workspace/status.md`：current_star=天玑(done), 下一步=天权/开阳编码
+3. 写入 `.taiyi/_workspace/queue.md`（就绪 Task 加 Ready 区）
+4. 更新 `.taiyi/_workspace/status.md`：current_star=天玑(done), 下一步=天权/开阳编码
 5. 告知用户：契约已产出，可交给天权/开阳编码（@司衡 继续 / 手动 @天权）
 
 ## 偷懒借口对照
@@ -194,9 +197,26 @@ Task 依赖只在 Epic 内表达。若发现 Task 依赖其他 Epic 的 Task →
 | "依赖盘点不用了，应该都有" | "应该"不是确认。逐个标 ✅/❌/❓ |
 | "锁死项多写点，保险" | 默认放权。锁太多=详细设计=你越权了 |
 | "这个任务大一点没关系" | 天权读>10文件或改>5文件=太大，拆 |
+| "需求/前提很清楚，不用验证" | 未验证的前提是隐患。先探上下文/验证假设，再拆解或路由（见 CONTEXT.md 公共基线·设计时验证假设）|
 
 ## 验证
 
 ```bash
-ls docs/taiyi-school/epics/*/tasks/TASK-*.md && grep -l "TASK-" docs/taiyi-school/epics/*/tasks/TASK-*.md && grep -l "current_star.*天玑" docs/taiyi-school/_workspace/status.md && echo "契约存在且含TASK-ID，_workspace已更新"
+ls .taiyi/epics/*/tasks/TASK-*.md && grep -l "TASK-" .taiyi/epics/*/tasks/TASK-*.md && grep -l "current_star.*天玑" .taiyi/_workspace/status.md && echo "契约存在且含TASK-ID，_workspace已更新"
 ```
+
+## 九星邻接表（拒绝/错误@时路由用）
+
+> 拒绝（R1输入不符/R2错误@使用/R3能力边界）时查本表给路由建议。详见 CONTEXT.md 公共基线·拒绝机制。
+
+| 星 | 接什么(input) | 产出什么(output) | 职责一句话 | 错误@时建议 |
+|----|--------------|-----------------|-----------|------------|
+| 天枢 | 混沌/模糊想法 | 需求真言 | 判需求真伪/边界/价值 | 技术方案→天璇；修复→瑶光/开阳 |
+| 天璇 | 需求真言 | 设计包+epic判定 | 设计+判Epic边界 | 判需求→天枢；拆任务→天玑 |
+| 天玑 | 设计包 | 任务契约 | 拆任务(两层+三档授权) | 设计问题→天璇；编码→天权/开阳 |
+| 天权 | 契约(mode=tianquan) | 代码+impl报告 | 文心编码(重质量) | 修bug/优化→开阳；无契约→天玑；架构决策→天璇 |
+| 开阳 | 契约(mode=kaiyang) | 代码+impl报告 | 武毅攻坚(重效率) | 新建模块→天权；无契约→天玑 |
+| 玉衡 | 代码（天权/开阳驱动唤醒）| 自检结果 | 编码后自检 | 由天权/开阳编码后@唤醒（内化驱动）；独立@合法（加强）|
+| 洞明 | 代码+契约+impl | 审查报告/归档 | 质门守门 | 写代码→天权/开阳；查根因→瑶光 |
+| 隐元 | 代码（洞明按风险标记驱动唤醒）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒（内化驱动）；独立@合法（加强）|
+| 瑶光 | 症状/打回单 | 诊断报告 | 查根因+架构体检 | 写代码→天权；判需求→天枢 |

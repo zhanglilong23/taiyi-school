@@ -16,7 +16,7 @@ license: MIT
 
 ### 输入来源
 
-任务契约（读 `docs/taiyi-school/epics/{epic}/tasks/TASK-{NNN}.md`，mode=kaiyang）
+任务契约（读 `.taiyi/epics/{epic}/tasks/TASK-{NNN}.md`，mode=kaiyang）
 
 ### 输入自审（前置条件检查）
 
@@ -26,15 +26,18 @@ license: MIT
 
 | 检查项 | 通过标准 | 不通过怎么办 |
 |--------|---------|-------------|
-| 契约存在 | 文件路径有效 | 报告"找不到契约" |
-| 三要素齐全 | 有 TASK-ID + DONE + DON'T | 报告"契约缺要素" |
-| DONE 可机检 | 每条验收能 grep/test 判定 | 报告"DONE 不可机检" |
-| mode=kaiyang | 契约标了 kaiyang | （如标 tianquan 则应走天权）|
-| 有文件白名单 | DON'T 含具体白名单 | 报告"缺白名单" |
+| 契约存在 | 文件路径有效 | R1 拒绝：路由回溯天玑（拆任务）|
+| 三要素齐全 | 有 TASK-ID + DONE + DON'T | R1 拒绝：路由回溯天玑（补全要素）|
+| DONE 可机检 | 每条验收能 grep/test 判定 | R1 拒绝：路由回溯天玑（具体化 DONE）|
+| mode=kaiyang | 契约标了 kaiyang | R2 拒绝：如标 tianquan 则建议 @天权 |
+| 有文件白名单 | DON'T 含具体白名单 | R1 拒绝：路由回溯天玑（补白名单）|
+
+> **R2 错误@使用**：若请求是"新建模块"（归天权，文心）或"无契约"（归天玑）→ R2 拒绝，建议正确星（查本星"九星邻接表"）。
+> 拒绝时执行三步动作（说清 R1/R2 + 更 status.md current_star_status=REJECTED + 给路由建议，详见 CONTEXT.md 公共基线·拒绝机制）。
 
 ## 输出
 
-已 commit 的代码 + 自检报告（落 `docs/taiyi-school/epics/{epic}/reports/TASK-{NNN}/impl.md`）。
+已 commit 的代码 + 自检报告（落 `.taiyi/epics/{epic}/reports/TASK-{NNN}/impl.md`）。
 
 > **产出前必须读模板**：用 Read 工具读 `references/impl-template.md`（本 SKILL 自带），按其结构填写。模板含四态+证据+玉衡自检摘要+契约外发现的完整骨架，缺一不可。
 
@@ -96,10 +99,17 @@ license: MIT
 每片增量后项目必须可编译、现有测试必须通过。"应该过了"不是证据。
 </HARD-GATE>
 
-### 第四步·玉衡自检（内化）
+### 第四步·玉衡自检（内化驱动）
 
-对照契约逐项自检。武毅重点查：**原bug是否复现不了了** + **修复是否引入新问题**。
+开阳仍必做基本自验证（构建/测试，见第三步 HARD-GATE）。通过后尝试唤醒独立玉衡：
 
+```
+编码完成 + 基本自验证通过 → 尝试 @玉衡 唤醒（内化驱动）：
+  - 成功（自动模式）→ 玉衡独立自检（武毅重点：原bug是否复现不了了 + 修复是否引入新问题）
+  - 失败（手动模式）→ 静默降级，告知用户选择：① @玉衡自检再@洞明 ② 直接@洞明
+```
+
+> 手动模式跳过玉衡是降级（失去独立客观层），体系推荐三层但容忍两层。
 ### 第五步·报告（四态）
 
 ```
@@ -125,8 +135,8 @@ DONE / DONE_WITH_CONCERNS / BLOCKED / NEEDS_CONTEXT
 
 1. 代码 commit（不 push，push 权在洞明放行后）
 2. 产出实现报告（`reports/TASK-{NNN}/impl.md`，**先 Read `references/impl-template.md` 按其结构填**，含四态+证据）
-3. 更新 `docs/taiyi-school/_workspace/queue.md`：本 TASK 从 Ready→Running（若未在 Running）
-4. 更新 `docs/taiyi-school/_workspace/status.md`：current_star=开阳(done), 下一步=洞明审查
+3. 更新 `.taiyi/_workspace/queue.md`：本 TASK 从 Ready→Running（若未在 Running）
+4. 更新 `.taiyi/_workspace/status.md`：current_star=开阳(done), 下一步=洞明审查
 5. 告知用户：代码已交付，可交洞明审查（@司衡 继续 / 手动 @洞明）
 
 ## 偷懒借口对照
@@ -137,9 +147,27 @@ DONE / DONE_WITH_CONCERNS / BLOCKED / NEEDS_CONTEXT
 | "顺手把旁边那段也重构了吧" | 顺手改=越权。登记 intervention |
 | "应该修好了" | "应该"不是证据。跑反馈回路验证 |
 | "3次了再试一次" | 3次失败→熔断 |
+| "需求/前提很清楚，不用验证" | 未验证的前提是隐患。先复现/验证假设，再修复或路由（见 CONTEXT.md 公共基线·设计时验证假设）|
+| "我自己做玉衡自检吧" | 错。应唤醒独立玉衡（驱动唤醒）；手动模式降级时告知用户选择 |
 
 ## 验证
 
 ```bash
-git log --oneline -1 | grep -E "fix|perf" && test -f docs/taiyi-school/epics/*/reports/TASK-*/impl.md && grep -l "current_star.*开阳" docs/taiyi-school/_workspace/status.md && echo "修复已commit、实现报告存在、_workspace已更新"
+git log --oneline -1 | grep -E "fix|perf" && test -f .taiyi/epics/*/reports/TASK-*/impl.md && grep -l "current_star.*开阳" .taiyi/_workspace/status.md && echo "修复已commit、实现报告存在、_workspace已更新"
 ```
+
+## 九星邻接表（拒绝/错误@时路由用）
+
+> 拒绝（R1输入不符/R2错误@使用/R3能力边界）时查本表给路由建议。详见 CONTEXT.md 公共基线·拒绝机制。
+
+| 星 | 接什么(input) | 产出什么(output) | 职责一句话 | 错误@时建议 |
+|----|--------------|-----------------|-----------|------------|
+| 天枢 | 混沌/模糊想法 | 需求真言 | 判需求真伪/边界/价值 | 技术方案→天璇；修复→瑶光/开阳 |
+| 天璇 | 需求真言 | 设计包+epic判定 | 设计+判Epic边界 | 判需求→天枢；拆任务→天玑 |
+| 天玑 | 设计包 | 任务契约 | 拆任务(两层+三档授权) | 设计问题→天璇；编码→天权/开阳 |
+| 天权 | 契约(mode=tianquan) | 代码+impl报告 | 文心编码(重质量) | 修bug/优化→开阳；无契约→天玑；架构决策→天璇 |
+| 开阳 | 契约(mode=kaiyang) | 代码+impl报告 | 武毅攻坚(重效率) | 新建模块→天权；无契约→天玑 |
+| 玉衡 | 代码（天权/开阳驱动唤醒）| 自检结果 | 编码后自检 | 由天权/开阳编码后@唤醒（内化驱动）；独立@合法（加强）|
+| 洞明 | 代码+契约+impl | 审查报告/归档 | 质门守门 | 写代码→天权/开阳；查根因→瑶光 |
+| 隐元 | 代码（洞明按风险标记驱动唤醒）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒（内化驱动）；独立@合法（加强）|
+| 瑶光 | 症状/打回单 | 诊断报告 | 查根因+架构体检 | 写代码→天权；判需求→天枢 |

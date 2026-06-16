@@ -25,19 +25,21 @@ license: MIT
 收到混沌后先判：这是业务需求，还是技术诉求？
 </HARD-GATE>
 
+> **自审标注**：下表的"❌"行即 **R2 错误@使用** 拒绝触发（请求不属于天枢职责）。天枢无 R1（输入不符）触发——输入是混沌（用户原始表达），无固定前置文件可校验，故不适用 R1。拒绝时执行三步动作（说清 R2 + 更 status.md current_star_status=REJECTED + 给路由建议，详见 CONTEXT.md 公共基线·拒绝机制）。
+
 | 混沌类型 | 信号 | 天枢该做 |
 |---------|------|---------|
 | **业务需求** ✅ | "我想做X""需要XX""用户抱怨Y" | 进四步判需求 |
-| **技术诉求** ❌ | "优化XX性能""重构XX模块""XX技术选型" | 提示用户"这是技术方案，建议找天璇设计" |
-| **修复请求** ❌ | "XX报错了""XX bug""修复XX" | 提示用户"这是修复，建议 @瑶光 诊断 或 @开阳 修复" |
-| **纯技术问题** ❌ | "XX怎么实现""XX框架怎么用" | 元问题，司衡直答或提示查文档 |
+| **技术诉求** ❌ | "优化XX性能""重构XX模块""XX技术选型" | R2 拒绝：建议 @天璇 设计 |
+| **修复请求** ❌ | "XX报错了""XX bug""修复XX" | R2 拒绝：建议 @瑶光 诊断 或 @开阳 修复 |
+| **纯技术问题** ❌ | "XX怎么实现""XX框架怎么用" | R2 拒绝：元问题，司衡直答或提示查文档 |
 | **不确定** | 模糊 | 追问"你是想做新功能，还是修问题，还是优化现有的？" |
 
 **天枢的职责是判需求真伪，不是处理技术/修复/优化请求。** 识别错类型还硬判 = 浪费用户时间。
 
 ## 输出
 
-需求真言（落 `docs/taiyi-school/requirements/REQ-{NNN}-{slug}.md`，**产出前用 Read 读 `references/requirement-template.md` 按其结构填**）
+需求真言（落 `.taiyi/requirements/REQ-{NNN}-{slug}.md`，**产出前用 Read 读 `references/requirement-template.md` 按其结构填**）
 
 > 命名规范：REQ-NNN-slug，NNN 全局递增（读 INDEX.md 需求索引取最大序号+1），slug 小写中划线。
 > 天枢**不碰 Epic**——需求归需求区，Epic 由天璇判定。
@@ -159,9 +161,9 @@ license: MIT
 
 ## 完成后
 
-1. 产出需求真言落盘（`docs/taiyi-school/requirements/REQ-{NNN}-{slug}.md`，**先 Read `references/requirement-template.md` 按其结构填**）
-2. 更新 `docs/taiyi-school/INDEX.md` 需求索引区（追加一行：REQ-NNN/slug/状态=in-progress/对应 Epic 数=0）
-3. 更新 `docs/taiyi-school/_workspace/status.md`：current_requirement=REQ-NNN, current_star=天枢(done), 下一步=天璇判 Epic + 设计
+1. 产出需求真言落盘（`.taiyi/requirements/REQ-{NNN}-{slug}.md`，**先 Read `references/requirement-template.md` 按其结构填**）
+2. 更新 `.taiyi/INDEX.md` 需求索引区（追加一行：REQ-NNN/slug/状态=in-progress/对应 Epic 数=0）
+3. 更新 `.taiyi/_workspace/status.md`：current_requirement=REQ-NNN, current_star=天枢(done), 下一步=天璇判 Epic + 设计
 4. 告知用户：需求真言已产出，可交给天璇判 Epic 边界 + 设计（@司衡 继续 / 手动 @天璇）
 
 ## 偷懒借口对照
@@ -173,9 +175,26 @@ license: MIT
 | "先做着再说" | 先问清楚再做，做错比问慢更浪费 |
 | "这个需求太小了不用问" | 越小的需求越容易做错方向 |
 | "正判太慢了，直接凝练吧" | 正判不可跳。没正判的需求真言是隐患 |
+| "需求/前提很清楚，不用验证" | 未验证的前提是隐患。先探上下文/验证假设，再判需求或路由（见 CONTEXT.md 公共基线·设计时验证假设）|
 
 ## 验证
 
 ```bash
-test -f docs/taiyi-school/requirements/REQ-*.md && grep -l "所求之道" docs/taiyi-school/requirements/REQ-*.md && grep -l "current_star.*天枢" docs/taiyi-school/_workspace/status.md && echo "需求真言存在且含核心字段，_workspace已更新"
+test -f .taiyi/requirements/REQ-*.md && grep -l "所求之道" .taiyi/requirements/REQ-*.md && grep -l "current_star.*天枢" .taiyi/_workspace/status.md && echo "需求真言存在且含核心字段，_workspace已更新"
 ```
+
+## 九星邻接表（拒绝/错误@时路由用）
+
+> 拒绝（R1输入不符/R2错误@使用/R3能力边界）时查本表给路由建议。详见 CONTEXT.md 公共基线·拒绝机制。
+
+| 星 | 接什么(input) | 产出什么(output) | 职责一句话 | 错误@时建议 |
+|----|--------------|-----------------|-----------|------------|
+| 天枢 | 混沌/模糊想法 | 需求真言 | 判需求真伪/边界/价值 | 技术方案→天璇；修复→瑶光/开阳 |
+| 天璇 | 需求真言 | 设计包+epic判定 | 设计+判Epic边界 | 判需求→天枢；拆任务→天玑 |
+| 天玑 | 设计包 | 任务契约 | 拆任务(两层+三档授权) | 设计问题→天璇；编码→天权/开阳 |
+| 天权 | 契约(mode=tianquan) | 代码+impl报告 | 文心编码(重质量) | 修bug/优化→开阳；无契约→天玑；架构决策→天璇 |
+| 开阳 | 契约(mode=kaiyang) | 代码+impl报告 | 武毅攻坚(重效率) | 新建模块→天权；无契约→天玑 |
+| 玉衡 | 代码（天权/开阳驱动唤醒）| 自检结果 | 编码后自检 | 由天权/开阳编码后@唤醒（内化驱动）；独立@合法（加强）|
+| 洞明 | 代码+契约+impl | 审查报告/归档 | 质门守门 | 写代码→天权/开阳；查根因→瑶光 |
+| 隐元 | 代码（洞明按风险标记驱动唤醒）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒（内化驱动）；独立@合法（加强）|
+| 瑶光 | 症状/打回单 | 诊断报告 | 查根因+架构体检 | 写代码→天权；判需求→天枢 |

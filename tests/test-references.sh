@@ -83,6 +83,56 @@ check_replica_consistency "epic-template" \
   "$PLUGIN_DIR/skills/tianshu/references/epic-template.md" \
   "$PLUGIN_DIR/skills/tianxuan/references/epic-template.md"
 
+# 校验九星邻接表副本一致性（技能自包含：9 颗执行星各存一份，内容须逐字一致）
+# 司衡不含邻接表（它有自己的路由表），不参与本校验
+echo ""
+echo "=== 九星邻接表副本一致性（9 执行星，不含司衡）==="
+
+# 9 颗执行星 SKILL.md（司衡 siheng 不含邻接表）
+ADJACENCY_STARS=(
+  tianshu tianxuan tianji tianquan kaiyang
+  yuheng dongming yinyuan yaoguang
+)
+
+# 从 SKILL.md 提取 "## 九星邻接表" 节（到下一个 ## 标题为止）
+extract_adjacency() {
+  local file="$1"
+  awk '/^## 九星邻接表/{flag=1;next} /^## /{if(flag)exit} flag' "$file"
+}
+
+adj_first=""
+adj_all_same=1
+adj_missing=()
+
+for star in "${ADJACENCY_STARS[@]}"; do
+  skill_file="$PLUGIN_DIR/skills/$star/SKILL.md"
+  section="$(extract_adjacency "$skill_file" || true)"
+  if [ -z "$section" ]; then
+    adj_missing+=("$star")
+    continue
+  fi
+  if [ -z "$adj_first" ]; then
+    adj_first="$section"
+  elif [ "$section" != "$adj_first" ]; then
+    fail "九星邻接表不一致: $(basename "$(dirname "$skill_file")") 与首个副本不同"
+    adj_all_same=0
+  fi
+done
+
+if [ "${#adj_missing[@]}" -gt 0 ]; then
+  fail "九星邻接表缺失（星尚未复制，待 TASK-006）: ${adj_missing[*]}"
+elif [ "$adj_all_same" -eq 1 ] && [ -n "$adj_first" ]; then
+  pass "九星邻接表 9 份副本一致（天枢/天璇/天玑/天权/开阳/玉衡/洞明/隐元/瑶光）"
+fi
+
+# 司衡不应含邻接表（它有自己的路由表）
+siheng_section="$(extract_adjacency "$PLUGIN_DIR/skills/siheng/SKILL.md" || true)"
+if [ -n "$siheng_section" ]; then
+  fail "司衡 SKILL 不应含九星邻接表（它有自己的路由表）"
+else
+  pass "司衡 SKILL 不含邻接表（保留自己的路由表）"
+fi
+
 # 校验 _shared 目录已废弃（技能自包含原则）
 if [ -d "$PLUGIN_DIR/skills/_shared" ]; then
   fail "skills/_shared 目录仍存在（技能自包含原则要求删除）"

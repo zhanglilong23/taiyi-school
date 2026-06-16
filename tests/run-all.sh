@@ -36,6 +36,7 @@ while [[ $# -gt 0 ]]; do
       echo "  siheng-readonly     司衡纯只读宪法校验（核心）"
       echo "  version-consistency 版本字段一致性"
       echo "  methodology-terms   方法论增强术语守卫（复盘/军令状/蓝军）"
+      echo "  sample-consistency  auth-mvp 演示样本状态机自洽性"
       exit 0
       ;;
     *) echo "未知参数: $1" >&2; exit 2 ;;
@@ -49,6 +50,7 @@ ALL_TESTS=(
   "siheng-readonly"
   "version-consistency"
   "methodology-terms"
+  "sample-consistency"
 )
 
 if [ -n "$SPECIFIC" ]; then

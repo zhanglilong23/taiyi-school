@@ -16,7 +16,7 @@ license: MIT
 
 ### 输入来源
 
-- 被动触发：洞明打回事件（读 `docs/taiyi-school/epics/{epic}/reports/TASK-{NNN}/review.md`）
+- 被动触发：洞明打回事件（读 `.taiyi/epics/{epic}/reports/TASK-{NNN}/review.md`）
 - 主动召唤：用户报障（@瑶光 + 问题描述）
 
 ### 输入自审
@@ -28,8 +28,11 @@ license: MIT
 
 | 检查项 | 通过标准 | 不通过怎么办 |
 |--------|---------|-------------|
-| 有问题描述 | 知道症状是什么 | 追问"具体什么现象？什么场景下出现？" |
+| 有问题描述 | 知道症状是什么 | R1 拒绝：追问"具体什么现象？什么场景下出现？"（无症状无法建反馈回路）|
 | 有相关文档（如有）| 契约/设计包/实现报告存在 | 不阻塞——可以从代码和症状直接诊断 |
+
+> **R2 错误@使用**：若请求是"写代码"（归天权）或"判需求"（归天枢）→ R2 拒绝，建议正确星（查本星"九星邻接表"）。瑶光只诊断/查根因，不改代码。
+> 拒绝时执行三步动作（说清 R1/R2 + 更 status.md current_star_status=REJECTED + 给路由建议，详见 CONTEXT.md 公共基线·拒绝机制）。
 
 ## 归属判断（开工第一步）
 
@@ -40,25 +43,25 @@ license: MIT
 2. 是洞明打回触发的（被动）吗？
 3. 判断：
    - 太一流水线内（洞明打回 / 有 Epic/Task）→ 诊断报告走 epics/{epic}/reports/TASK-{NNN}/diagnosis.md
-   - 独立诊断（@瑶光 主动召唤，无 Epic 归属，如维护项目查 bug）→ 走 docs/taiyi-school/diagnoses/BUG-{NNN}.md
+   - 独立诊断（@瑶光 主动召唤，无 Epic 归属，如维护项目查 bug）→ 走 .taiyi/diagnoses/BUG-{NNN}.md
    - 不确定 → 问用户"这是太一流水线的问题，还是独立诊断？"
 ```
 
-**瑶光不创建 Epic**——独立诊断的产出走 `diagnoses/`。首次产出时创建该目录（`mkdir -p docs/taiyi-school/diagnoses/`）。
+**瑶光不创建 Epic**——独立诊断的产出走 `diagnoses/`。首次产出时创建该目录（`mkdir -p .taiyi/diagnoses/`）。
 
 ## 输出
 
 诊断报告（**产出前用 Read 读 `references/diagnosis-template.md` 按其结构填**）：
 - **照骨**（bug 根因诊断）：
-  - 打回诊断（归属某 Task）：落 `docs/taiyi-school/epics/{epic}/reports/TASK-{NNN}/diagnosis.md`
-  - 独立诊断（不归属任何 Epic）：落 `docs/taiyi-school/diagnoses/BUG-{NNN}.md`
-- **观势**（Epic 完成时架构体检）：落 `docs/taiyi-school/epics/{epic}/reports/assessment.md`（Epic 级，不归属单 Task）
+  - 打回诊断（归属某 Task）：落 `.taiyi/epics/{epic}/reports/TASK-{NNN}/diagnosis.md`
+  - 独立诊断（不归属任何 Epic）：落 `.taiyi/diagnoses/BUG-{NNN}.md`
+- **观势**（Epic 完成时架构体检）：落 `.taiyi/epics/{epic}/reports/assessment.md`（Epic 级，不归属单 Task）
 
 主动召唤时只出报告不续接——用户决定下一步。
 
 ## 更新 _workspace
 
-诊断完成后更新 `docs/taiyi-school/_workspace/status.md`：
+诊断完成后更新 `.taiyi/_workspace/status.md`：
 - 被动触发（洞明打回）：填中断区（interrupted_star=被打回的星, interrupt_reason=根因路由）
 - 主动召唤（@瑶光）：current_star=瑶光(done), 下一步=待用户决定（不自动续接）
 
@@ -161,9 +164,26 @@ license: MIT
 | "我读了代码，应该是这里的问题" | "应该是"不是根因。建回路验证 |
 | "3次没修好，再试一次" | 3次失败→质疑架构。不磨第4次 |
 | "根因很明显，不用路由了直接修" | 瑶光不改代码。定位根因+路由 |
+| "需求/前提很清楚，不用验证" | 未验证的前提是隐患。先探上下文/验证假设，再诊断或路由（见 CONTEXT.md 公共基线·设计时验证假设）|
 
 ## 验证
 
 ```bash
-ls docs/taiyi-school/epics/*/reports/TASK-*/diagnosis.md docs/taiyi-school/diagnoses/BUG-*.md 2>/dev/null && grep -l "根因" docs/taiyi-school/epics/*/reports/TASK-*/diagnosis.md docs/taiyi-school/diagnoses/BUG-*.md 2>/dev/null && echo "诊断报告存在且含根因"
+ls .taiyi/epics/*/reports/TASK-*/diagnosis.md .taiyi/diagnoses/BUG-*.md 2>/dev/null && grep -l "根因" .taiyi/epics/*/reports/TASK-*/diagnosis.md .taiyi/diagnoses/BUG-*.md 2>/dev/null && echo "诊断报告存在且含根因"
 ```
+
+## 九星邻接表（拒绝/错误@时路由用）
+
+> 拒绝（R1输入不符/R2错误@使用/R3能力边界）时查本表给路由建议。详见 CONTEXT.md 公共基线·拒绝机制。
+
+| 星 | 接什么(input) | 产出什么(output) | 职责一句话 | 错误@时建议 |
+|----|--------------|-----------------|-----------|------------|
+| 天枢 | 混沌/模糊想法 | 需求真言 | 判需求真伪/边界/价值 | 技术方案→天璇；修复→瑶光/开阳 |
+| 天璇 | 需求真言 | 设计包+epic判定 | 设计+判Epic边界 | 判需求→天枢；拆任务→天玑 |
+| 天玑 | 设计包 | 任务契约 | 拆任务(两层+三档授权) | 设计问题→天璇；编码→天权/开阳 |
+| 天权 | 契约(mode=tianquan) | 代码+impl报告 | 文心编码(重质量) | 修bug/优化→开阳；无契约→天玑；架构决策→天璇 |
+| 开阳 | 契约(mode=kaiyang) | 代码+impl报告 | 武毅攻坚(重效率) | 新建模块→天权；无契约→天玑 |
+| 玉衡 | 代码（天权/开阳驱动唤醒）| 自检结果 | 编码后自检 | 由天权/开阳编码后@唤醒（内化驱动）；独立@合法（加强）|
+| 洞明 | 代码+契约+impl | 审查报告/归档 | 质门守门 | 写代码→天权/开阳；查根因→瑶光 |
+| 隐元 | 代码（洞明按风险标记驱动唤醒）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒（内化驱动）；独立@合法（加强）|
+| 瑶光 | 症状/打回单 | 诊断报告 | 查根因+架构体检 | 写代码→天权；判需求→天枢 |

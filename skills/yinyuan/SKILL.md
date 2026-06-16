@@ -27,9 +27,12 @@ license: MIT
 
 | 检查项 | 通过标准 | 不通过怎么办 |
 |--------|---------|-------------|
-| 有代码 | git diff 非空 | 报告"没有代码可审" |
+| 有代码 | git diff 非空 | R1 拒绝：无代码可审 |
 | 有风险标记 | 契约标了至少一个非默认风险维度 | 无标记=不触发（简单任务不查）|
-| 有契约 | 契约文件存在（确定 epic/task 归属）| 报告"缺契约，无法定位 epic/task" |
+| 有契约 | 契约文件存在（确定 epic/task 归属）| R1 拒绝：路由回溯天玑（补契约）|
+
+> **R2 错误@使用**：隐元默认由洞明审查时按风险标记驱动唤醒（内化驱动）。用户独立 @隐元 做额外风险扫描是合法用途（加强），不拒绝。隐元的 R2 仅针对请求性质错配（如功能性审查 → 建议 @洞明）。隐元只审非功能性风险（安全/鲁棒/性能/可靠/兼容）。
+> 拒绝时执行三步动作（说清 R1/R2 + 更 status.md current_star_status=REJECTED + 给路由建议，详见 CONTEXT.md 公共基线·拒绝机制）。
 
 ## 归属判断（开工第一步）
 
@@ -40,7 +43,7 @@ license: MIT
 2. 是洞明调用的吗？
 3. 判断：
    - 有契约（流水线内）→ 风险报告走 epics/{epic}/reports/TASK-{NNN}/risk.md
-   - 洞明独立审查时调用（无 Epic 归属）→ 走 docs/taiyi-school/misc/reviews/ 下作为审查附件
+   - 洞明独立审查时调用（无 Epic 归属）→ 走 .taiyi/misc/reviews/ 下作为审查附件
    - 不确定 → 问洞明/用户"这是哪个 Task 的风险扫描？"
 ```
 
@@ -48,7 +51,7 @@ license: MIT
 
 ## 输出
 
-非功能性风险报告（落 `docs/taiyi-school/epics/{epic}/reports/TASK-{NNN}/risk.md`，**产出前用 Read 读 `references/risk-template.md` 按其结构填**，交回洞明综合决策——隐元不直接放行）
+非功能性风险报告（落 `.taiyi/epics/{epic}/reports/TASK-{NNN}/risk.md`，**产出前用 Read 读 `references/risk-template.md` 按其结构填**，交回洞明综合决策——隐元不直接放行）
 
 <HARD-GATE>
 隐元不直接放行——结果交洞明综合决策。
@@ -94,10 +97,10 @@ license: MIT
 
 ## 完成后
 
-1. 产出非功能性风险报告（`docs/taiyi-school/epics/{epic}/reports/TASK-{NNN}/risk.md`，**先 Read `references/risk-template.md` 按其结构填**，按维度分节，附具体场景）
+1. 产出非功能性风险报告（`.taiyi/epics/{epic}/reports/TASK-{NNN}/risk.md`，**先 Read `references/risk-template.md` 按其结构填**，按维度分节，附具体场景）
 2. 交回洞明综合决策
-3. 轻微问题登记 `docs/taiyi-school/_workspace/interventions.md`（强制义务，不只标注）
-4. 更新 `docs/taiyi-school/_workspace/status.md`：current_star=隐元(done), 下一步=洞明综合决策
+3. 轻微问题登记 `.taiyi/_workspace/interventions.md`（强制义务，不只标注）
+4. 更新 `.taiyi/_workspace/status.md`：current_star=隐元(done), 下一步=洞明综合决策
 
 ## 偷懒借口对照
 
@@ -107,9 +110,26 @@ license: MIT
 | "并发问题不太可能发生" | "不太可能"不是实证。标了 concurrency=involved 就查 |
 | "这个性能问题很小，不用报" | 小问题也登记 intervention。不遗失 |
 | "建议增加鲁棒性" | 这是废话不是发现。附具体场景或闭嘴 |
+| "需求/前提很清楚，不用验证" | 未验证的前提是隐患。先探上下文/验证假设，再扫描或路由（见 CONTEXT.md 公共基线·设计时验证假设）|
 
 ## 验证
 
 ```bash
-ls docs/taiyi-school/epics/*/reports/TASK-*/risk.md 2>/dev/null && grep -l "维度" docs/taiyi-school/epics/*/reports/TASK-*/risk.md 2>/dev/null && echo "风险报告存在且含维度"
+ls .taiyi/epics/*/reports/TASK-*/risk.md 2>/dev/null && grep -l "维度" .taiyi/epics/*/reports/TASK-*/risk.md 2>/dev/null && echo "风险报告存在且含维度"
 ```
+
+## 九星邻接表（拒绝/错误@时路由用）
+
+> 拒绝（R1输入不符/R2错误@使用/R3能力边界）时查本表给路由建议。详见 CONTEXT.md 公共基线·拒绝机制。
+
+| 星 | 接什么(input) | 产出什么(output) | 职责一句话 | 错误@时建议 |
+|----|--------------|-----------------|-----------|------------|
+| 天枢 | 混沌/模糊想法 | 需求真言 | 判需求真伪/边界/价值 | 技术方案→天璇；修复→瑶光/开阳 |
+| 天璇 | 需求真言 | 设计包+epic判定 | 设计+判Epic边界 | 判需求→天枢；拆任务→天玑 |
+| 天玑 | 设计包 | 任务契约 | 拆任务(两层+三档授权) | 设计问题→天璇；编码→天权/开阳 |
+| 天权 | 契约(mode=tianquan) | 代码+impl报告 | 文心编码(重质量) | 修bug/优化→开阳；无契约→天玑；架构决策→天璇 |
+| 开阳 | 契约(mode=kaiyang) | 代码+impl报告 | 武毅攻坚(重效率) | 新建模块→天权；无契约→天玑 |
+| 玉衡 | 代码（天权/开阳驱动唤醒）| 自检结果 | 编码后自检 | 由天权/开阳编码后@唤醒（内化驱动）；独立@合法（加强）|
+| 洞明 | 代码+契约+impl | 审查报告/归档 | 质门守门 | 写代码→天权/开阳；查根因→瑶光 |
+| 隐元 | 代码（洞明按风险标记驱动唤醒）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒（内化驱动）；独立@合法（加强）|
+| 瑶光 | 症状/打回单 | 诊断报告 | 查根因+架构体检 | 写代码→天权；判需求→天枢 |

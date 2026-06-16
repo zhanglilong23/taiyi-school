@@ -1,6 +1,6 @@
 # 需求真言模板（天枢产出）
 
-> 天枢判需求后产出，落 `docs/taiyi-school/requirements/REQ-{NNN}-{slug}.md`。
+> 天枢判需求后产出，落 `.taiyi/requirements/REQ-{NNN}-{slug}.md`。
 > 需求语义层，独立于 Epic（Epic 由天璇判定）。
 > 原文件追加修改，不手动版本化（git log 留痕）。
 

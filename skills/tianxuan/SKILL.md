@@ -16,7 +16,7 @@ license: MIT
 
 ### 输入来源
 
-- 优先读：`docs/taiyi-school/requirements/REQ-{NNN}-{slug}.md`（天枢产出的需求真言）
+- 优先读：`.taiyi/requirements/REQ-{NNN}-{slug}.md`（天枢产出的需求真言）
 - 或：用户直接表述的需求（未经天枢，需求已明确时）
 
 ### 输入自审（前置条件检查）
@@ -27,12 +27,15 @@ license: MIT
 
 | 检查项 | 通过标准 | 不通过怎么办 |
 |--------|---------|-------------|
-| 输入文件存在 | requirements/REQ-NNN.md 路径有效 | 报告"找不到需求真言，请确认路径或先找天枢" |
-| 需求够明确 | 能说清"做什么+基本边界" | 报告"需求模糊，建议先找天枢澄清" |
+| 输入文件存在 | requirements/REQ-NNN.md 路径有效 | R1 拒绝：路由回溯天枢（判需求）|
+| 需求够明确 | 能说清"做什么+基本边界" | R1 拒绝：路由回溯天枢（澄清）|
+
+> **R2 错误@使用**：若请求是"拆任务"（归天玑）或"判需求真伪"（归天枢）→ R2 拒绝，建议正确星（查本星"九星邻接表"）。
+> 拒绝时执行三步动作（说清 R1/R2 + 更 status.md current_star_status=REJECTED + 给路由建议，详见 CONTEXT.md 公共基线·拒绝机制）。
 
 ## 输出
 
-设计包（落 `docs/taiyi-school/epics/{epic}/design.md`，**产出前用 Read 读 `references/design-template.md` 按其结构填**），含：
+设计包（落 `.taiyi/epics/{epic}/design.md`，**产出前用 Read 读 `references/design-template.md` 按其结构填**），含：
 - 技术假设（已确认/已纠正）
 - 选定方案 + ADR
 - 架构设计（模块/接口/约束/数据流）
@@ -231,11 +234,11 @@ license: MIT
 ## 完成后
 
 1. 【Epic 判定后】创建 `epics/{epic}/` + `epic.md`（**先 Read `references/epic-template.md`**，填 requirement/depends_on/entry_star）
-2. 产出设计包落盘（`docs/taiyi-school/epics/{epic}/design.md`，**先 Read `references/design-template.md` 按其结构填**）
+2. 产出设计包落盘（`.taiyi/epics/{epic}/design.md`，**先 Read `references/design-template.md` 按其结构填**）
 3. 更新 `epic.md` 文档清单（design.md 标 ✅）
 4. 更新 `requirements/REQ-NNN.md` 的 epics 字段（追加本 epic 名）
 5. 多 Epic 时：第一个 Epic 进设计，其余在 epic.md 和 INDEX.md 记为待启动
-6. 更新 `docs/taiyi-school/_workspace/status.md`：current_epic={epic}, current_star=天璇(done), 下一步=天玑拆任务
+6. 更新 `.taiyi/_workspace/status.md`：current_epic={epic}, current_star=天璇(done), 下一步=天玑拆任务
 7. 告知用户：Epic 已判定 + 设计包已产出，可交天玑拆任务（@司衡 继续 / 手动 @天玑）
 
 ## 偷懒借口对照
@@ -247,9 +250,26 @@ license: MIT
 | "这个设计先用 TBD 占位，后面再补" | 占位符=拆解未完成。修掉再交付 |
 | "架构不用写 ADR，太麻烦" | ADR 记录决策+为什么。没ADR=下次没人知道为什么这么定 |
 | "产品/UI/架构我一起写一大块" | 分段呈现逐段确认。一大块=用户没法逐段把关 |
+| "需求/前提很清楚，不用验证" | 未验证的前提是隐患。先探上下文/验证假设，再设计或路由（见 CONTEXT.md 公共基线·设计时验证假设）|
 
 ## 验证
 
 ```bash
-test -f docs/taiyi-school/epics/*/design.md && grep -l "架构设计" docs/taiyi-school/epics/*/design.md && grep -l "current_star.*天璇" docs/taiyi-school/_workspace/status.md && echo "设计包存在且含架构设计，_workspace已更新"
+test -f .taiyi/epics/*/design.md && grep -l "架构设计" .taiyi/epics/*/design.md && grep -l "current_star.*天璇" .taiyi/_workspace/status.md && echo "设计包存在且含架构设计，_workspace已更新"
 ```
+
+## 九星邻接表（拒绝/错误@时路由用）
+
+> 拒绝（R1输入不符/R2错误@使用/R3能力边界）时查本表给路由建议。详见 CONTEXT.md 公共基线·拒绝机制。
+
+| 星 | 接什么(input) | 产出什么(output) | 职责一句话 | 错误@时建议 |
+|----|--------------|-----------------|-----------|------------|
+| 天枢 | 混沌/模糊想法 | 需求真言 | 判需求真伪/边界/价值 | 技术方案→天璇；修复→瑶光/开阳 |
+| 天璇 | 需求真言 | 设计包+epic判定 | 设计+判Epic边界 | 判需求→天枢；拆任务→天玑 |
+| 天玑 | 设计包 | 任务契约 | 拆任务(两层+三档授权) | 设计问题→天璇；编码→天权/开阳 |
+| 天权 | 契约(mode=tianquan) | 代码+impl报告 | 文心编码(重质量) | 修bug/优化→开阳；无契约→天玑；架构决策→天璇 |
+| 开阳 | 契约(mode=kaiyang) | 代码+impl报告 | 武毅攻坚(重效率) | 新建模块→天权；无契约→天玑 |
+| 玉衡 | 代码（天权/开阳驱动唤醒）| 自检结果 | 编码后自检 | 由天权/开阳编码后@唤醒（内化驱动）；独立@合法（加强）|
+| 洞明 | 代码+契约+impl | 审查报告/归档 | 质门守门 | 写代码→天权/开阳；查根因→瑶光 |
+| 隐元 | 代码（洞明按风险标记驱动唤醒）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒（内化驱动）；独立@合法（加强）|
+| 瑶光 | 症状/打回单 | 诊断报告 | 查根因+架构体检 | 写代码→天权；判需求→天枢 |
