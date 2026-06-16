@@ -1,0 +1,11 @@
+# 统一行尾符处理（避免 Windows CRLF / Unix LF 混乱）
+# 提交时统一为 LF，检出时按本地系统
+* text=auto eol=lf
+
+# 脚本必须 LF（bash/Python 对 CRLF 敏感）
+*.sh text eol=lf
+*.py text eol=lf
+
+# Windows 批处理必须 CRLF
+*.cmd text eol=crlf
+*.bat text eol=crlf
