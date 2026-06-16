@@ -1,0 +1,7 @@
+# 太一学派 · 工作区状态（分支本地，不进 git）
+# _workspace 是当前工作态快照，随分支消亡，合并时不带。
+# 历史记录靠业务产物（epics/）+ git log，不靠 _workspace。
+docs/taiyi-school/_workspace/
+
+# 发布流程文档（发布者专用，不进版本控制）
+docs/playbooks/

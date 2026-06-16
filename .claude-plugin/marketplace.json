@@ -1,0 +1,19 @@
+{
+  "name": "taiyi-school",
+  "owner": {
+    "name": "太一学派",
+    "url": "https://github.com/zhanglilong23/taiyi-school"
+  },
+  "metadata": {
+    "description": "太一学派 — 天文同构的 AI Agent 角色分工协作体系",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "taiyi-school",
+      "source": "./",
+      "description": "九星 + 司衡。三层职责分离（需求/Epic/Task）+ 文档两层分离（工作层/产物层）。",
+      "version": "1.0.0"
+    }
+  ]
+}

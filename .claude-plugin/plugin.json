@@ -1,0 +1,25 @@
+{
+  "name": "taiyi-school",
+  "version": "1.0.0",
+  "description": "太一学派 — 天文同构的 AI Agent 角色分工协作体系。九星（天枢判需求/天璇断设计/天玑拆任务/天权文心编码/玉衡自检/开阳武毅攻坚/瑶光查根因/洞明质门守门/隐元风险守护）+ 司衡（调度中枢·纯只读路由）。三层职责分离：天枢判需求（requirements/）→ 天璇判 Epic 边界（epics/）→ 天玑拆 Task。文档架构两层分离：_workspace/（工作层·分支本地·.gitignore）+ epics/（产物层·进 git）。汲取鲁班工程内核（契约/审查/归档），去修仙装饰，以天文同构为结构源头。斜杠命令 /taiyi-school:siheng(司衡) /taiyi-school:tianshu(天枢) /taiyi-school:tianxuan(天璇) /taiyi-school:tianji(天玑) /taiyi-school:tianquan(天权) /taiyi-school:yuheng(玉衡) /taiyi-school:kaiyang(开阳) /taiyi-school:yaoguang(瑶光) /taiyi-school:dongming(洞明) /taiyi-school:yinyuan(隐元) /taiyi-school:setup(初始化) 激活角色。",
+  "author": {
+    "name": "太一学派",
+    "url": "https://github.com/zhanglilong23/taiyi-school"
+  },
+  "repository": "https://github.com/zhanglilong23/taiyi-school",
+  "license": "MIT",
+  "keywords": [
+    "taiyi-school",
+    "agent-team",
+    "role-collaboration",
+    "contract-driven",
+    "code-review",
+    "quality-gate",
+    "separation-of-duties",
+    "skills",
+    "agent-workflow",
+    "chinese",
+    "astronomy-isomorphism",
+    "epic-driven"
+  ]
+}

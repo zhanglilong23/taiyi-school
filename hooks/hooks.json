@@ -1,0 +1,16 @@
+{
+  "description": "太一学派 hooks — 会话启动提示命令",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[太一学派] 斜杠命令: /taiyi-school:siheng(司衡) /taiyi-school:tianshu(天枢) /taiyi-school:tianxuan(天璇) /taiyi-school:tianji(天玑) /taiyi-school:tianquan(天权) /taiyi-school:kaiyang(开阳) /taiyi-school:yaoguang(瑶光) /taiyi-school:dongming(洞明) /taiyi-school:yinyuan(隐元) | @提及: @司衡 @天枢 @天璇 @洞明 @瑶光 | 主入口: @司衡 (流水线自动续接) / @星宿 (单星直达不续接)'"
+          }
+        ]
+      }
+    ]
+  }
+}
