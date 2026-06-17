@@ -1,0 +1,10 @@
+# 任务队列
+
+> 太一学派跨会话任务状态真值表。
+> 由司南签发契约时登记，鲁班开工/交付时更新，狄公审查时核对。
+
+| TASK-ID | 契约路径 | 状态 | 负责人 | 备注 |
+|---|---|---|---|---|
+| TSK-TY-SHENG-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-17_v1.4.0_TSK-TY-SHENG-001.md | in_progress | 鲁班 | 司衡 SKILL 改造；patch-1 待确认 |
+| TSK-TY-YUHENG-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-17_v1.4.0_TSK-TY-YUHENG-001.md（待签发） | pending | — | 玉衡-天权-开阳闭环 |
+| TSK-TY-DONGMING-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-17_v1.4.0_TSK-TY-DONGMING-001.md（待签发） | pending | — | 洞明-瑶光-隐元 + 其余五星 + CONTEXT/GUIDE |
