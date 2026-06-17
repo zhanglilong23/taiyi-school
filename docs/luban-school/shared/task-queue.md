@@ -5,6 +5,6 @@
 
 | TASK-ID | 契约路径 | 状态 | 负责人 | 备注 |
 |---|---|---|---|---|
-| TSK-TY-SHENG-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-17_v1.4.0_TSK-TY-SHENG-001.md | in_progress | 鲁班 | 司衡 SKILL 改造；patch-1 待确认 |
+| TSK-TY-SHENG-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-17_v1.4.0_TSK-TY-SHENG-001.md | complete | 鲁班 | sha=5e14341；司衡 SKILL 改造完成 |
 | TSK-TY-YUHENG-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-17_v1.4.0_TSK-TY-YUHENG-001.md（待签发） | pending | — | 玉衡-天权-开阳闭环 |
 | TSK-TY-DONGMING-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-17_v1.4.0_TSK-TY-DONGMING-001.md（待签发） | pending | — | 洞明-瑶光-隐元 + 其余五星 + CONTEXT/GUIDE |
