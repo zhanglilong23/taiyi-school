@@ -62,8 +62,19 @@ license: MIT
 ## 更新 _workspace
 
 诊断完成后更新 `.taiyi/_workspace/status.md`：
-- 被动触发（洞明打回）：填中断区（interrupted_star=被打回的星, interrupt_reason=根因路由）
-- 主动召唤（@瑶光）：current_star=瑶光(done), 下一步=待用户决定（不自动续接）
+
+- **被动触发（洞明打回）**：
+  - `current_star=瑶光(done)`
+  - `next_star=IDLE`
+  - `next_action=按根因路由`
+  - `manual_invoke=@X星`（按根因填充为具体星，如 @天权/@天璇/@天玑/@天枢）
+  - `block_reason` 写明建议路由与理由
+- **主动召唤（@瑶光）**：
+  - `current_star=瑶光(done)`
+  - `next_star=IDLE`
+  - `next_action=待用户决定`
+  - `manual_invoke=请用户根据诊断报告决定下一步`
+  - `block_reason=主动诊断完成，需用户决策下一步`
 
 ## 面一·照骨（bug 根因诊断）
 
@@ -153,8 +164,10 @@ license: MIT
 ## 完成后
 
 1. 产出诊断报告（症状/反馈回路/坏味定性/根因/凶险定级/路由建议/修复后验证）
-2. 被动触发：路由建议经人工调度执行
-3. 主动召唤：报告交用户决策
+2. 更新 `.taiyi/_workspace/status.md`：
+   - 被动触发：`current_star=瑶光(done)`, `next_star=IDLE`, `manual_invoke=@X星`（按根因填充）, `block_reason` 写明建议路由
+   - 主动召唤：`current_star=瑶光(done)`, `next_star=IDLE`, `manual_invoke=请用户决策`, `block_reason=主动诊断完成`
+3. 告知用户：诊断已完成，建议下一步：{manual_invoke}。理由：{block_reason}
 
 ## 偷懒借口对照
 
@@ -183,7 +196,7 @@ ls .taiyi/epics/*/reports/TASK-*/diagnosis.md .taiyi/diagnoses/BUG-*.md 2>/dev/n
 | 天玑 | 设计包 | 任务契约 | 拆任务(两层+三档授权) | 设计问题→天璇；编码→天权/开阳 |
 | 天权 | 契约(mode=tianquan) | 代码+impl报告 | 文心编码(重质量) | 修bug/优化→开阳；无契约→天玑；架构决策→天璇 |
 | 开阳 | 契约(mode=kaiyang) | 代码+impl报告 | 武毅攻坚(重效率) | 新建模块→天权；无契约→天玑 |
-| 玉衡 | 代码（天权/开阳驱动唤醒）| 自检结果 | 编码后自检 | 由天权/开阳编码后@唤醒（内化驱动）；独立@合法（加强）|
+| 玉衡 | 代码（天权/开阳编码后必经自检）| 自检结果 | 编码后自检 | 独立@合法（加强）|
 | 洞明 | 代码+契约+impl | 审查报告/归档 | 质门守门 | 写代码→天权/开阳；查根因→瑶光 |
-| 隐元 | 代码（洞明按风险标记驱动唤醒）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒（内化驱动）；独立@合法（加强）|
+| 隐元 | 代码（洞明审查时按需触发）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒；独立@合法（加强）|
 | 瑶光 | 症状/打回单 | 诊断报告 | 查根因+架构体检 | 写代码→天权；判需求→天枢 |

@@ -238,8 +238,8 @@ license: MIT
 3. 更新 `epic.md` 文档清单（design.md 标 ✅）
 4. 更新 `requirements/REQ-NNN.md` 的 epics 字段（追加本 epic 名）
 5. 多 Epic 时：第一个 Epic 进设计，其余在 epic.md 和 INDEX.md 记为待启动
-6. 更新 `.taiyi/_workspace/status.md`：current_epic={epic}, current_star=天璇(done), 下一步=天玑拆任务
-7. 告知用户：Epic 已判定 + 设计包已产出，可交天玑拆任务（@司衡 继续 / 手动 @天玑）
+6. 更新 `.taiyi/_workspace/status.md`：current_epic={epic}, current_star=天璇(done), next_star=天玑, next_action=拆任务, manual_invoke=@天玑
+7. 告知用户：Epic 已判定 + 设计包已产出，下一步请手动 @天玑 拆任务
 
 ## 偷懒借口对照
 
@@ -269,7 +269,7 @@ test -f .taiyi/epics/*/design.md && grep -l "架构设计" .taiyi/epics/*/design
 | 天玑 | 设计包 | 任务契约 | 拆任务(两层+三档授权) | 设计问题→天璇；编码→天权/开阳 |
 | 天权 | 契约(mode=tianquan) | 代码+impl报告 | 文心编码(重质量) | 修bug/优化→开阳；无契约→天玑；架构决策→天璇 |
 | 开阳 | 契约(mode=kaiyang) | 代码+impl报告 | 武毅攻坚(重效率) | 新建模块→天权；无契约→天玑 |
-| 玉衡 | 代码（天权/开阳驱动唤醒）| 自检结果 | 编码后自检 | 由天权/开阳编码后@唤醒（内化驱动）；独立@合法（加强）|
+| 玉衡 | 代码（天权/开阳编码后必经自检）| 自检结果 | 编码后自检 | 独立@合法（加强）|
 | 洞明 | 代码+契约+impl | 审查报告/归档 | 质门守门 | 写代码→天权/开阳；查根因→瑶光 |
-| 隐元 | 代码（洞明按风险标记驱动唤醒）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒（内化驱动）；独立@合法（加强）|
+| 隐元 | 代码（洞明审查时按需触发）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒；独立@合法（加强）|
 | 瑶光 | 症状/打回单 | 诊断报告 | 查根因+架构体检 | 写代码→天权；判需求→天枢 |

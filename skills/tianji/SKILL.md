@@ -185,8 +185,8 @@ Task 依赖只在 Epic 内表达。若发现 Task 依赖其他 Epic 的 Task →
 1. 每个任务产出一份契约（**先 Read `references/contract-template.md` 按其结构填**，落 `epics/{epic}/tasks/TASK-{NNN}.md`）
 2. 更新 `epics/{epic}/epic.md` 文档清单 + Task 列表（每个 Task 一行：ID/描述/状态=ready）
 3. 写入 `.taiyi/_workspace/queue.md`（就绪 Task 加 Ready 区）
-4. 更新 `.taiyi/_workspace/status.md`：current_star=天玑(done), 下一步=天权/开阳编码
-5. 告知用户：契约已产出，可交给天权/开阳编码（@司衡 继续 / 手动 @天权）
+4. 更新 `.taiyi/_workspace/status.md`：current_star=天玑(done), next_star=天权/开阳, next_action=编码, manual_invoke=@天权/@开阳（按首个 ready Task 的 mode）
+5. 告知用户：契约已产出，下一步请手动 @天权/@开阳 编码
 
 ## 偷懒借口对照
 
@@ -216,7 +216,7 @@ ls .taiyi/epics/*/tasks/TASK-*.md && grep -l "TASK-" .taiyi/epics/*/tasks/TASK-*
 | 天玑 | 设计包 | 任务契约 | 拆任务(两层+三档授权) | 设计问题→天璇；编码→天权/开阳 |
 | 天权 | 契约(mode=tianquan) | 代码+impl报告 | 文心编码(重质量) | 修bug/优化→开阳；无契约→天玑；架构决策→天璇 |
 | 开阳 | 契约(mode=kaiyang) | 代码+impl报告 | 武毅攻坚(重效率) | 新建模块→天权；无契约→天玑 |
-| 玉衡 | 代码（天权/开阳驱动唤醒）| 自检结果 | 编码后自检 | 由天权/开阳编码后@唤醒（内化驱动）；独立@合法（加强）|
+| 玉衡 | 代码（天权/开阳编码后必经自检）| 自检结果 | 编码后自检 | 独立@合法（加强）|
 | 洞明 | 代码+契约+impl | 审查报告/归档 | 质门守门 | 写代码→天权/开阳；查根因→瑶光 |
-| 隐元 | 代码（洞明按风险标记驱动唤醒）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒（内化驱动）；独立@合法（加强）|
+| 隐元 | 代码（洞明审查时按需触发）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒；独立@合法（加强）|
 | 瑶光 | 症状/打回单 | 诊断报告 | 查根因+架构体检 | 写代码→天权；判需求→天枢 |

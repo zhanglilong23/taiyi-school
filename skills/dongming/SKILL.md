@@ -31,6 +31,7 @@ license: MIT
 | 代码已 commit | git log 有对应 TASK-ID 的 commit | R1 拒绝：路由回溯天权/开阳（先 commit）|
 | 契约存在 | `tasks/TASK-{NNN}.md` 路径有效 | R1 拒绝：路由回溯天玑（拆任务）|
 | 实现报告存在 | `reports/TASK-{NNN}/impl.md` 存在 | R1 拒绝：路由回溯天权/开阳（补报告）|
+| 玉衡自检摘要存在 | `grep -q '^## 玉衡自检摘要$' reports/TASK-{NNN}/impl.md` 命中 | R1 拒绝：缺玉衡自检摘要，请先 @玉衡 自检，路由回溯玉衡 |
 
 > **R2 错误@使用**：若请求是"写代码"（归天权/开阳）或"查根因"（归瑶光）→ R2 拒绝，建议正确星（查本星"九星邻接表"）。
 > 拒绝时执行三步动作（说清 R1/R2 + 更 status.md current_star_status=REJECTED + 给路由建议，详见 CONTEXT.md 公共基线·拒绝机制）。
@@ -169,6 +170,23 @@ license: MIT
 ```
 
 > 隐元是洞明的专项扫描仪，不做放行决策（结果交回洞明综合）。洞明仍是综合决策者。
+
+## 隐元结果影响放行规则
+
+隐元产出 risk.md 后，洞明按以下规则综合决策：
+
+| 风险等级 | 处理规则 |
+|---------|---------|
+| **P0/P1** | 必须打回，路由到瑶光查根因或天权/开阳自修 |
+| **P2** | 登记 intervention.md，可放行但需跟踪，不能沉默忽略 |
+| **无风险** | 洞明按功能性审查继续，正常放行或打回 |
+
+<HARD-GATE>
+隐元发现 P0/P1 级风险 → 洞明必须打回。
+隐元发现 P2 级风险 → 登记 intervention，洞明可放行但需跟踪。
+隐元未发现风险 → 洞明按功能性审查继续。
+</HARD-GATE>
+
 ## 溢出问题清点（放行前必做）
 
 <HARD-GATE>
@@ -196,8 +214,9 @@ license: MIT
    - 未闭环问题迁入 `epics/{epic}/interventions.md`（进 git，全局可见）
    - 已闭环问题丢弃（随分支消亡）
 3. **_workspace 重置**：更新 `_workspace/status.md`
-   - 还有下一个 Task → current_task 指向下一个 ready
-   - Epic 全部完成 → 进入归档流程
+   - 读 `queue.md`，有 ready Task → `current_star=洞明(done)`, `next_star=天权/开阳`（按首个 ready Task 的 mode）
+   - 无 ready Task 但 Epic 未归档 → `current_star=洞明(done)`, `next_star=瑶光`, `next_action=观势`, `manual_invoke=@瑶光`
+   - Epic 已归档（所有 Task done + intervention 有去向）→ `current_epic=IDLE`, `current_star=IDLE`, `next_star=IDLE`
 4. **[Epic 完成] 归档**（见下方 Epic 归档流程）
 
 ## [打回] 的动作
@@ -214,6 +233,7 @@ license: MIT
 | 需求问题 | 天枢（重新正判）|
 
 - **精确修复指引**：打回附修复方向，不笼统打回
+- **_workspace 更新**：`current_star_status=REJECTED`, `next_star=瑶光`, `next_action=查根因`, `manual_invoke=@瑶光`, `block_reason` 写明根因分类与建议路由
 
 <HARD-GATE>
 最多 2 轮打回，第 3 轮升级用户。
@@ -227,7 +247,7 @@ license: MIT
 
 <HARD-GATE>
 Epic 完成归档前，必须先调度瑶光观势（Epic 级架构体检）。
-这步不在洞明 SKILL 内执行——洞明告知用户/司衡，由瑶光产出观势结论。
+这步不在洞明 SKILL 内执行——洞明告知用户，由瑶光产出观势结论。
 观势未通过（接口偏离/复杂度热点）→ 回天璇重新评估，不归档。
 </HARD-GATE>
 
@@ -328,8 +348,15 @@ REQ-001-商城系统
 ## 完成后
 
 1. 产出审查报告（`reports/TASK-{NNN}/review.md`，**先 Read `references/review-template.md` 按其结构填**）
-2. 如放行：执行 push + interventions 落地 + _workspace 重置，告知用户任务完成（@司衡 继续 / 取下个 Task）
-3. 如打回：告知用户根因分类+修复方向（@瑶光 查根因）
+2. 如放行：执行 push + interventions 落地 + _workspace 重置
+   - 更新 `_workspace/status.md`：
+     - 有 ready Task → `current_star=洞明(done)`, `next_star=天权/开阳`, `next_action=编码`, `manual_invoke=@天权/@开阳`
+     - 无 ready Task 但 Epic 未归档 → `current_star=洞明(done)`, `next_star=瑶光`, `next_action=观势`, `manual_invoke=@瑶光`
+     - Epic 已归档 → `current_star=IDLE`, `next_star=IDLE`
+   - 告知用户：审查通过，下一步按 status.md 提示手动召唤下一颗星
+3. 如打回：
+   - 更新 `_workspace/status.md`：`current_star_status=REJECTED`, `next_star=瑶光`, `next_action=查根因`, `manual_invoke=@瑶光`
+   - 告知用户根因分类+修复方向（请手动 @瑶光 查根因）
 
 ## 偷懒借口对照
 
@@ -360,7 +387,7 @@ ls .taiyi/epics/*/reports/TASK-*/review.md && grep -E "verdict:" .taiyi/epics/*/
 | 天玑 | 设计包 | 任务契约 | 拆任务(两层+三档授权) | 设计问题→天璇；编码→天权/开阳 |
 | 天权 | 契约(mode=tianquan) | 代码+impl报告 | 文心编码(重质量) | 修bug/优化→开阳；无契约→天玑；架构决策→天璇 |
 | 开阳 | 契约(mode=kaiyang) | 代码+impl报告 | 武毅攻坚(重效率) | 新建模块→天权；无契约→天玑 |
-| 玉衡 | 代码（天权/开阳驱动唤醒）| 自检结果 | 编码后自检 | 由天权/开阳编码后@唤醒（内化驱动）；独立@合法（加强）|
+| 玉衡 | 代码（天权/开阳编码后必经自检）| 自检结果 | 编码后自检 | 独立@合法（加强）|
 | 洞明 | 代码+契约+impl | 审查报告/归档 | 质门守门 | 写代码→天权/开阳；查根因→瑶光 |
-| 隐元 | 代码（洞明按风险标记驱动唤醒）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒（内化驱动）；独立@合法（加强）|
+| 隐元 | 代码（洞明审查时按需触发）| 风险报告 | 非功能性风险守护 | 由洞明审查时@唤醒；独立@合法（加强）|
 | 瑶光 | 症状/打回单 | 诊断报告 | 查根因+架构体检 | 写代码→天权；判需求→天枢 |
