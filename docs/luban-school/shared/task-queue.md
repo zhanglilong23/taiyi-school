@@ -9,3 +9,4 @@
 | TSK-TY-YUHENG-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-17_v1.4.0_TSK-TY-YUHENG-001.md | complete | 鲁班 | sha=b634721；玉衡-天权-开阳闭环完成 |
 | TSK-TY-DONGMING-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-18_v1.4.0_TSK-TY-DONGMING-001.md | complete | 鲁班 | sha=6ca400f；洞明-瑶光-隐元 + 其余五星 + CONTEXT/GUIDE 完成 |
 | TSK-TY-POSTEPIC-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-18_v1.4.1_TSK-TY-POSTEPIC-001.md | complete | 鲁班 | sha=5af025a；frontmatter UTF-8计数 + SKILL提示语机检 + LSN教训文档 |
+| TSK-TY-SKILL-PROMPT-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-18_v1.4.1_TSK-TY-SKILL-PROMPT-001.md | complete | 鲁班 | sha=a65427b；11颗SKILL[太一流转]标准提示语补齐完成 |
