@@ -169,6 +169,8 @@ license: MIT
    - 主动召唤：`current_star=瑶光(done)`, `next_star=IDLE`, `manual_invoke=请用户决策`, `block_reason=主动诊断完成`
 3. 告知用户：诊断已完成，建议下一步：{manual_invoke}。理由：{block_reason}
 
+[太一流转] 瑶光 已完成：诊断报告已产出。下一步请手动 @X星（按根因路由）修复。
+
 ## 偷懒借口对照
 
 | 借口 | 反驳 |

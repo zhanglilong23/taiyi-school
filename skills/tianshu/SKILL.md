@@ -166,6 +166,8 @@ license: MIT
 3. 更新 `.taiyi/_workspace/status.md`：current_requirement=REQ-NNN, current_star=天枢(done), next_star=天璇, next_action=判 Epic + 设计, manual_invoke=@天璇
 4. 告知用户：需求真言已产出，下一步请手动 @天璇 判 Epic 边界 + 设计
 
+[太一流转] 天枢 已完成：需求真言已产出。下一步请手动 @天璇 判 Epic 边界 + 设计。
+
 ## 偷懒借口对照
 
 | 借口 | 反驳 |

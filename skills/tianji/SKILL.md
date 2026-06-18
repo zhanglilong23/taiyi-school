@@ -188,6 +188,8 @@ Task 依赖只在 Epic 内表达。若发现 Task 依赖其他 Epic 的 Task →
 4. 更新 `.taiyi/_workspace/status.md`：current_star=天玑(done), next_star=天权/开阳, next_action=编码, manual_invoke=@天权/@开阳（按首个 ready Task 的 mode）
 5. 告知用户：契约已产出，下一步请手动 @天权/@开阳 编码
 
+[太一流转] 天玑 已完成：任务契约已签发。下一步请手动 @天权/@开阳 编码。
+
 ## 偷懒借口对照
 
 | 借口 | 反驳 |

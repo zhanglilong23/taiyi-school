@@ -241,6 +241,8 @@ license: MIT
 6. 更新 `.taiyi/_workspace/status.md`：current_epic={epic}, current_star=天璇(done), next_star=天玑, next_action=拆任务, manual_invoke=@天玑
 7. 告知用户：Epic 已判定 + 设计包已产出，下一步请手动 @天玑 拆任务
 
+[太一流转] 天璇 已完成：设计包已产出。下一步请手动 @天玑 拆任务。
+
 ## 偷懒借口对照
 
 | 借口 | 反驳 |

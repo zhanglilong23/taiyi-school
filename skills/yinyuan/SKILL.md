@@ -102,6 +102,8 @@ license: MIT
 3. 轻微问题登记 `.taiyi/_workspace/interventions.md`（强制义务，不只标注）
 4. 更新 `.taiyi/_workspace/status.md`：current_star=隐元(done), next_star=洞明, next_action=综合决策, manual_invoke=@洞明
 
+[太一流转] 隐元 已完成：风险扫描已交付。下一步请手动 @洞明 综合决策。
+
 ## 偷懒借口对照
 
 | 借口 | 反驳 |

@@ -221,6 +221,8 @@ type: feat/fix/refactor/test/docs/chore
 4. 更新 `.taiyi/_workspace/status.md`：current_star=天权(done), next_star=玉衡, next_action=自检, manual_invoke=@玉衡
 5. 告知用户：代码已交付。下一步请手动 @玉衡 自检；自检通过后我将追加玉衡自检摘要到 impl.md，再交洞明审查。
 
+[太一流转] 天权 已完成：代码已交付。下一步请手动 @玉衡 自检。
+
 ## 偷懒借口对照
 
 | 借口 | 反驳 |

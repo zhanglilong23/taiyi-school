@@ -358,6 +358,8 @@ REQ-001-商城系统
    - 更新 `_workspace/status.md`：`current_star_status=REJECTED`, `next_star=瑶光`, `next_action=查根因`, `manual_invoke=@瑶光`
    - 告知用户根因分类+修复方向（请手动 @瑶光 查根因）
 
+[太一流转] 洞明 已完成：审查结论已给出。下一步请手动 @瑶光 查根因（打回时）或按 status.md 提示召唤下一颗星（放行时）。
+
 ## 偷懒借口对照
 
 | 借口 | 反驳 |
