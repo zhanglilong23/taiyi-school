@@ -38,6 +38,7 @@ while [[ $# -gt 0 ]]; do
       echo "  methodology-terms   方法论增强术语守卫（复盘/军令状/蓝军）"
       echo "  sample-consistency  auth-mvp 演示样本状态机自洽性"
       echo "  skill-prompt        SKILL 完成后标准提示语格式校验"
+      echo "  ai-employee-protocol AI 员工化协议校验（身份卡/next_action/PMO）"
       exit 0
       ;;
     *) echo "未知参数: $1" >&2; exit 2 ;;
@@ -53,6 +54,7 @@ ALL_TESTS=(
   "methodology-terms"
   "sample-consistency"
   "skill-prompt"
+  "ai-employee-protocol"
 )
 
 if [ -n "$SPECIFIC" ]; then

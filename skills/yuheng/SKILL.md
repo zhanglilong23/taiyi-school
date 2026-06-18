@@ -12,6 +12,20 @@ license: MIT
 
 **核心准则**：贴证据不贴声称——"应该过了"不是证据，本次会话跑过的才算。
 
+## AI 员工身份卡
+
+> 本星在 AI 员工化后的岗位定位与行为基线。
+
+- **岗位名称**：开发自测
+- **汇报对象**：Tech Lead
+- **核心目标**：编码后对照契约逐项自检，通过才放行。
+- **主动行为**：
+  1. 收到请求后主动自审输入，缺前置不开工；
+  2. 执行过程中主动更新 `.taiyi/_workspace/status.md`；
+  3. 完成后主动写 `.taiyi/_workspace/next_action.md`（仅当 `ai_employee_mode=active`），让司衡（PMO）统一推进。
+- **红线**：
+  - 不是QA——玉衡是开发者自测（"我跑通了吗"），洞明是独立审查（"真的对了吗"）。标准不同是设计意图；不跳过——自检不过不 commit。跳过=埋雷；不只标注不登记——发现契约外影响，登记 intervention.md，不只写一句"发现隐患"。
+
 ## 输入与自审
 
 ### 输入来源
@@ -34,7 +48,7 @@ license: MIT
 
 ## 输出
 
-- 自检通过（附证据）→ 天权/开阳 commit
+- 自检通过 → 追加玉衡自检摘要到 `impl.md` 并 commit（不 push），然后交洞明审查
 - 自检打回 → 天权/开阳自修
 
 ## 分层自检（按任务类型，不全查）
@@ -83,15 +97,17 @@ license: MIT
 
 ## 完成后
 
-1. 自检通过 → 输出**玉衡自检摘要**，由天权/开阳追加到 `reports/TASK-{NNN}/impl.md` 末尾
+1. 自检通过 → 玉衡按标准格式追加**玉衡自检摘要**到 `reports/TASK-{NNN}/impl.md` 末尾，然后执行 commit（不 push）
 2. 自检打回 → 天权/开阳自修
 3. 登记 `.taiyi/_workspace/interventions.md`（如有契约外发现，强制义务）
+4. 更新 `.taiyi/_workspace/status.md`：current_star=玉衡(done), next_star=洞明, next_action=审查, manual_invoke=@洞明
+5. 若 `.taiyi/_workspace/status.md` 中 `ai_employee_mode=active`，则写 `.taiyi/_workspace/next_action.md`（按《AI-EMPLOYEE-PLAYBOOK》schema），供司衡读取推进；否则保持手动 `@` 模式。
 
-[太一流转] 玉衡 已完成：自检已执行。下一步请手动 @洞明 审查。
+[太一流转] 玉衡 已完成：自检已通过并追加摘要到 impl.md 且 commit。下一步请手动 @洞明 审查。
 
 ### 玉衡自检摘要标准格式
 
-玉衡自检通过后，必须按以下标准格式输出摘要，供天权/开阳复制并追加到 `impl.md` 末尾：
+玉衡自检通过后，必须按以下标准格式输出摘要，并**由玉衡自己**追加到 `impl.md` 末尾，然后 commit。
 
 ```markdown
 ## 玉衡自检摘要
@@ -134,7 +150,7 @@ license: MIT
 ## 验证
 
 ```bash
-git diff --stat | grep -v "^$" && grep -rl "自检" .taiyi/epics/*/reports/TASK-*/impl.md 2>/dev/null && echo "有代码改动且自检记录存在"
+git log --oneline -1 | grep -E "feat|fix|refactor" && grep -q "玉衡自检摘要" .taiyi/epics/*/reports/TASK-*/impl.md && grep -l "current_star.*玉衡" .taiyi/_workspace/status.md && echo "代码已commit、impl.md含玉衡摘要、_workspace已更新"
 ```
 
 ## 九星邻接表（拒绝/错误@时路由用）

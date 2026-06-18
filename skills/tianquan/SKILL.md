@@ -12,6 +12,20 @@ license: MIT
 
 **核心准则**：没验证的完工是负债，不是交付。
 
+## AI 员工身份卡
+
+> 本星在 AI 员工化后的岗位定位与行为基线。
+
+- **岗位名称**：工程师（质量/文心）
+- **汇报对象**：Tech Lead
+- **核心目标**：按契约写出可验证、可维护的代码。
+- **主动行为**：
+  1. 收到请求后主动自审输入，缺前置不开工；
+  2. 执行过程中主动更新 `.taiyi/_workspace/status.md`；
+  3. 完成后主动写 `.taiyi/_workspace/next_action.md`（仅当 `ai_employee_mode=active`），让司衡（PMO）统一推进。
+- **红线**：
+  - 无契约不行动——缺 TASK-ID/DONE/DON'T → 拒绝执行，要求先找天玑出契约；不改白名单外文件——越权，登记 intervention 不擅改；不做架构决策——多方案抉择归天璇，BLOCKED 报告；不空转第4次——3次失败必熔断；不静默交付不确定的代码——不确定就 BLOCKED/DONE_WITH_CONCERNS。
+
 ## 输入与自审
 
 ### 输入来源
@@ -37,9 +51,10 @@ license: MIT
 
 ## 输出
 
-已 commit 的代码 + 自检报告（落 `.taiyi/epics/{epic}/reports/TASK-{NNN}/impl.md`）。
+已编码、尚未 commit 的代码 + 自检报告（落 `.taiyi/epics/{epic}/reports/TASK-{NNN}/impl.md`）。
 
-> **产出前必须读模板**：用 Read 工具读 `references/impl-template.md`（本 SKILL 自带），按其结构填写。模板含四态+证据+玉衡自检摘要+契约外发现的完整骨架，缺一不可。
+> **产出前必须读模板**：用 Read 工具读 `references/impl-template.md`（本 SKILL 自带），按其结构填写。模板含四态+证据+契约外发现的完整骨架，缺一不可。
+> **暂不含玉衡自检摘要**：玉衡自检通过后，由玉衡追加到 `impl.md` 末尾并 commit。
 
 ## 双模式（由契约 mode 字段决定）
 
@@ -70,7 +85,7 @@ license: MIT
 ### 第一步·开工盘点（编码前必做）
 
 <HARD-GATE>
-收到契约后、写代码前，强制自答5问。任一暴露"可能跑不通"→ 停手，写《隐患报告》，不开工。
+收到契约后、写代码前，强制自答6问。任一暴露"可能跑不通"→ 停手，写《隐患报告》，不开工。
 </HARD-GATE>
 
 ```
@@ -84,7 +99,7 @@ license: MIT
 
 ### 第二步·增量实现（不大块写）
 
-按薄切片增量推进：实现最小完整片 → 测 → 验证 → commit → 下一片。
+按薄切片增量推进：实现最小完整片 → 测 → 验证 → 下一片。
 
 切片策略（按任务性质选）：
 - **垂直切片**（首选）：一个端到端可演示的路径
@@ -111,10 +126,10 @@ license: MIT
 
 ```
 编码完成 + 基本自验证通过 → 告知用户：
-  "代码已交付。下一步：请手动 @玉衡 自检。自检通过后我将把玉衡自检摘要追加到 impl.md 末尾，再交洞明审查。"
+  "代码已编码完成，尚未 commit。下一步：请手动 @玉衡 自检。玉衡自检通过后，将由玉衡追加玉衡自检摘要到 impl.md 并 commit，再交洞明审查。"
 ```
 
-玉衡自检通过后，天权负责在 `reports/TASK-{NNN}/impl.md` 末尾按标准格式追加**玉衡自检摘要**（格式见玉衡 SKILL 输出）。
+玉衡自检通过后，由玉衡在 `reports/TASK-{NNN}/impl.md` 末尾按标准格式追加**玉衡自检摘要**（格式见玉衡 SKILL 输出），然后执行 commit。
 
 > 玉衡做更系统的契约逐条核对（独立客观层），与天权的基本自验证不重叠。**玉衡是必经节点，不可跳过。**
 
@@ -215,13 +230,14 @@ type: feat/fix/refactor/test/docs/chore
 
 ## 完成后
 
-1. 代码 commit（不 push，push 权在洞明放行后）
-2. 产出实现报告（`reports/TASK-{NNN}/impl.md`，**先 Read `references/impl-template.md` 按其结构填**，含四态+证据）
-3. 更新 `.taiyi/_workspace/queue.md`：本 TASK 从 Ready→Running（若未在 Running）
-4. 更新 `.taiyi/_workspace/status.md`：current_star=天权(done), next_star=玉衡, next_action=自检, manual_invoke=@玉衡
-5. 告知用户：代码已交付。下一步请手动 @玉衡 自检；自检通过后我将追加玉衡自检摘要到 impl.md，再交洞明审查。
+1. 产出实现报告（`reports/TASK-{NNN}/impl.md`，**先 Read `references/impl-template.md` 按其结构填**，含四态+证据；暂不含玉衡摘要）
+2. 更新 `.taiyi/_workspace/queue.md`：本 TASK 从 Ready→Running（若未在 Running）
+3. 更新 `.taiyi/_workspace/status.md`：current_star=天权(done), next_star=玉衡, next_action=自检, manual_invoke=@玉衡
+4. 告知用户：代码已编码完成，尚未 commit。下一步请手动 @玉衡 自检；玉衡自检通过后将由玉衡追加玉衡自检摘要到 impl.md 并 commit，再交洞明审查。
 
-[太一流转] 天权 已完成：代码已交付。下一步请手动 @玉衡 自检。
+[太一流转] 天权 已完成：代码已编码完成，尚未 commit。下一步请手动 @玉衡 自检。
+
+5. 若 `.taiyi/_workspace/status.md` 中 `ai_employee_mode=active`，则写 `.taiyi/_workspace/next_action.md`（按《AI-EMPLOYEE-PLAYBOOK》schema），供司衡读取推进；否则保持手动 `@` 模式。
 
 ## 偷懒借口对照
 
@@ -233,13 +249,13 @@ type: feat/fix/refactor/test/docs/chore
 | "这个3次了，再试一次说不定行" | 3次失败→熔断。不空转第4次 |
 | "任务需要架构决策，我自己定了吧" | 架构决策不是天权的活。BLOCKED报告 |
 | "玉衡自检太慢了，跳过吧" | 自检不过不commit。跳过=埋雷。玉衡是必经节点。 |
-| "我自己做玉衡自检吧" | 错。应召唤独立 @玉衡 做客观自检；玉衡通过后由天权追加摘要到 impl.md。 |
+| "我自己做玉衡自检吧" | 错。应召唤独立 @玉衡 做客观自检；玉衡通过后由玉衡追加摘要到 impl.md 并 commit。 |
 | "需求/前提很清楚，不用验证" | 未验证的前提是隐患。先探上下文/验证假设，再编码或开工盘点（见 CONTEXT.md 公共基线·设计时验证假设）|
 
 ## 验证
 
 ```bash
-git log --oneline -1 | grep -E "feat|fix|refactor" && test -f .taiyi/epics/*/reports/TASK-*/impl.md && grep -l "current_star.*天权" .taiyi/_workspace/status.md && echo "代码已commit、实现报告存在、_workspace已更新"
+git diff --stat | grep -v "^$" && test -f .taiyi/epics/*/reports/TASK-*/impl.md && grep -l "current_star.*天权" .taiyi/_workspace/status.md && echo "代码已编码、实现报告存在、_workspace已更新"
 ```
 
 ## 九星邻接表（拒绝/错误@时路由用）
