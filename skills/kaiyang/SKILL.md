@@ -1,6 +1,6 @@
 ---
 name: kaiyang
-description: "按契约修复bug、优化性能、攻坚难题，最小改动直击要害。"
+description: "按契约修bug、优化与攻坚。"
 license: MIT
 ---
 

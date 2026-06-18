@@ -29,7 +29,7 @@ echo "  --- 调用 bump-version.sh --check ---"
 if bash "$PLUGIN_DIR/scripts/bump-version.sh" --check >/tmp/taiyi-version-check.out 2>&1; then
   pass "bump-version --check 通过（所有声明字段一致）"
   # 显示简短摘要
-  grep "结果:" /tmp/taiyi-version-check.out | sed 's/^/    /'
+  grep "结果:" /tmp/taiyi-version-check.out 2>/dev/null | sed 's/^/    /' || true
 else
   fail "bump-version --check 失败"
   cat /tmp/taiyi-version-check.out | sed 's/^/    /'
@@ -38,7 +38,7 @@ rm -f /tmp/taiyi-version-check.out
 
 # 4. plugin.json name 字段 = 项目目录名
 if [ -f "$PLUGIN_DIR/.claude-plugin/plugin.json" ]; then
-  plugin_name="$(python3 -c "import json;print(json.load(open('.claude-plugin/plugin.json'))['name'])" 2>/dev/null || true)"
+  plugin_name="$(python3 -c "import json;print(json.load(open('.claude-plugin/plugin.json', encoding='utf-8'))['name'])" 2>/dev/null || true)"
   dir_name="$(basename "$PLUGIN_DIR")"
   if [ "$plugin_name" = "$dir_name" ]; then
     pass "plugin.json name='$plugin_name' 与目录名一致"

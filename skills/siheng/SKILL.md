@@ -1,6 +1,6 @@
 ---
 name: siheng
-description: "调度中枢。读请求+状态，智能路由九星，推进流水线。只读不写。"
+description: "调度中枢。读请求+状态，路由九星。"
 license: MIT
 ---
 

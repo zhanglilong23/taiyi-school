@@ -1,6 +1,6 @@
 ---
 name: yaoguang
-description: "诊断bug根因并定位到源头角色，或做架构体检。"
+description: "诊断bug根因并定位源头角色，或做架构体检。"
 license: MIT
 ---
 

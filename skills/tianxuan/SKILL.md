@@ -1,6 +1,6 @@
 ---
 name: tianxuan
-description: "把需求转化为技术方案、产品设计、界面原型。"
+description: "把需求转化为方案、产品与界面原型。"
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: setup
-description: "初始化太一学派文档骨架。触发：/taiyi-school:setup。"
+description: "初始化太一学派文档骨架。"
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: yinyuan
-description: "扫描代码的安全、并发、性能等非功能性风险。"
+description: "扫描代码安全、并发、性能等非功能性风险。"
 license: MIT
 ---
 
