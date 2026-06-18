@@ -6,3 +6,9 @@ docs/history/
 
 # 发布流程文档（发布者专用，不进版本控制）
 docs/playbooks/
+
+# 鲁班学派过程文档
+docs/luban-school/
+
+.claude/
+*.bat

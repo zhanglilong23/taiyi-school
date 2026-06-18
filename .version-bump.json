@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "files": [
     { "path": ".claude-plugin/plugin.json", "field": "version" },
     { "path": ".claude-plugin/marketplace.json", "field": "plugins.0.version" },
