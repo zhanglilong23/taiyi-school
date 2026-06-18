@@ -48,7 +48,7 @@ while IFS= read -r file; do
   desc_val="$(echo "$desc_line" | sed -E "s/^description:[[:space:]]*//")"
   # 去掉外层引号后算长度
   desc_unquoted="$(echo "$desc_val" | sed -E "s/^\"(.*)\"\$/\1/" | sed -E "s/^'(.*)'\$/\1/")"
-  desc_len=${#desc_unquoted}
+  desc_len=$(utf8_len "$desc_unquoted")
 
   # 4. 营销词
   if echo "$desc_unquoted" | grep -Eiq "$MARKETING_WORDS"; then
@@ -58,7 +58,7 @@ while IFS= read -r file; do
 
   # 3. 长度（60 字符硬约束）
   if [ "$desc_len" -gt 60 ]; then
-    fail "$rel (description $desc_len 字符 > 60: $desc_unquoted)"
+    fail "$rel (description $desc_len 字符（UTF-8）> 60: $desc_unquoted)"
     continue
   fi
 
@@ -68,7 +68,7 @@ while IFS= read -r file; do
     continue
   fi
 
-  pass "$rel ($desc_len 字符)"
+  pass "$rel ($desc_len 字符（UTF-8）)"
 done < <(list_skills)
 
 summary "frontmatter"

@@ -37,6 +37,7 @@ while [[ $# -gt 0 ]]; do
       echo "  version-consistency 版本字段一致性"
       echo "  methodology-terms   方法论增强术语守卫（复盘/军令状/蓝军）"
       echo "  sample-consistency  auth-mvp 演示样本状态机自洽性"
+      echo "  skill-prompt        SKILL 完成后标准提示语格式校验"
       exit 0
       ;;
     *) echo "未知参数: $1" >&2; exit 2 ;;
@@ -51,6 +52,7 @@ ALL_TESTS=(
   "version-consistency"
   "methodology-terms"
   "sample-consistency"
+  "skill-prompt"
 )
 
 if [ -n "$SPECIFIC" ]; then
@@ -86,7 +88,7 @@ for test_name in "${TESTS[@]}"; do
   else
     # 静默模式：捕获输出，失败时打印
     if output=$(bash "$test_path" 2>&1); then
-      echo "$output" | grep -E "^\s+\[(PASS|SKIP)\]" | tail -5
+      echo "$output" | grep -E "^\s+\[(PASS|SKIP)\]" | tail -5 || true
       echo "  >>> [PASS] $test_name"
       PASSED=$((PASSED + 1))
     else

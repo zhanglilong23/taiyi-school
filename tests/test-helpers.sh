@@ -51,3 +51,9 @@ get_frontmatter() {
   local file="$1"
   sed -n '/^---$/,/^---$/p' "$file" | sed '1d;$d'
 }
+
+# UTF-8 字符计数（Windows Git Bash 下 ${#var} 按字节计数，故用 python 兜底）
+utf8_len() {
+  local s="$1"
+  python -c "import sys; print(len(sys.argv[1]))" "$s"
+}
