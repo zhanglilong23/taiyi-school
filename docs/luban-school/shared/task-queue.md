@@ -7,4 +7,4 @@
 |---|---|---|---|---|
 | TSK-TY-SHENG-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-17_v1.4.0_TSK-TY-SHENG-001.md | complete | 鲁班 | sha=5e14341；司衡 SKILL 改造完成 |
 | TSK-TY-YUHENG-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-17_v1.4.0_TSK-TY-YUHENG-001.md | complete | 鲁班 | sha=b634721；玉衡-天权-开阳闭环完成 |
-| TSK-TY-DONGMING-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-17_v1.4.0_TSK-TY-DONGMING-001.md（待签发） | pending | — | 洞明-瑶光-隐元 + 其余五星 + CONTEXT/GUIDE |
+| TSK-TY-DONGMING-001 | docs/luban-school/contracts/taiyi-architecture/2026-06-18_v1.4.0_TSK-TY-DONGMING-001.md | ready | 鲁班 | 洞明-瑶光-隐元 + 其余五星 + CONTEXT/GUIDE |
